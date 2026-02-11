@@ -1,10 +1,18 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
+const SECRET = "cosmofleet_secret"; // later move to env
 
 const app = express();
 const PORT = 3000;
 
+
 // middleware
 app.use(express.json());
+
+// root route
+app.get("/", (req, res) => {
+  res.send("CosmoFleet Auth Service 🚀");
+});
 
 // health check
 app.get("/health", (req, res) => {
@@ -12,14 +20,10 @@ app.get("/health", (req, res) => {
 });
 
 // start server
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0",() => {
   console.log(`Auth service running on port ${PORT}`);
 });
 
-
-const jwt = require("jsonwebtoken");
-
-const SECRET = "cosmofleet_secret"; // later move to env
 
 app.post("/auth/login", (req, res) => {
   const { email, password } = req.body;
